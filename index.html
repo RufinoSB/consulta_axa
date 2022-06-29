@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta http-equiv="Content-Language" content="pt-BR">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9, IE=8, IE=7, IE=edge, chrome=1">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script language="javascript">
+        function consulta() {
+            let headersList = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "dataType": "json"
+            }
+
+            let bodyContent = JSON.stringify({
+                "ClientServiceNumber": 22000935,
+                "TpPasta": "Cível com Sinistro"
+            });
+
+            fetch("https://dc1.inso.com.br:8092/api/ConsultaProcessoAutoRest", {
+                method: "post",
+                mode: 'no-cors',
+                body: bodyContent,
+                headers: headersList
+
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.json();
+
+            }).then(function(data) {
+                console.log(data.statusCode);
+                console.log(data.statusMessage);
+                console.log(data.nrSinistro);
+                console.log(data.dtAviso);
+                console.log(data.ramo.seguroRamo);
+
+            }).catch(error => console.log('Erro', error))
+        }
+    </script>
+
+    <script language="javascript">
+        function consulta2() {
+            let headersList = {
+                "Accept": "*/*",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+                "Content-Type": "text/xml",
+                "Access-Control-Allow-Origin": "*",
+            }
+
+            fetch("https://hml-axa.sommacloud.com:8443/WebServices/wsAutoOne/wsAutoOne.asmx/GetProcessoForBroker?userName=IntegracaoISJ&password=IntegracaoISJ%232020&clientServiceNumber=22000935", {
+                method: "GET",
+                mode: 'no-cors',
+                headers: headersList
+
+            }).then(response => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.text();
+
+            }).then(function(data) {
+                console.log(data);
+
+            }).catch(error => console.log('Erro', error))
+        }
+    </script>
+
+    <script language="javascript">
+        window.onload = function() {
+            consulta2();
+        }
+    </script>
+
+
+
+</head>
+
+<body>
+
+
+</body>
+
+</html>
